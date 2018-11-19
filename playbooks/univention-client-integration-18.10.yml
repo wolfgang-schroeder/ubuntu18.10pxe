@@ -45,5 +45,5 @@
     shell: dpkg -i /tmp/univention-domain-join-cli_1.0-18ubuntu1_all.deb
 
   - name: configure univention
-    shell: univention-domain-join-cli --master-ip 192.168.16.235 --skip-login-manager --username administrator --password 'lPi)nJe$t&'
+    shell: univention-domain-join-cli --master-ip 192.168.16.235 --skip-login-manager --username administrator --password 'password'
 ...
