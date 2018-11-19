@@ -1,0 +1,74 @@
+---
+- hosts: client
+  remote_user: root
+
+  tasks:
+  - name: Create /daten/backup
+    file:
+      path: /daten/backup
+      state: directory
+
+  - name: Create /daten/shc
+    file:
+      path: /daten/shc
+      state: directory
+
+  - name: Create /daten/office
+    file:
+      path: /daten/office
+      state: directory
+
+  - name: Create /daten/lager
+    file:
+      path: /daten/lager
+      state: directory
+
+  - name: Create /daten/gf
+    file:
+      path: /daten/gf
+      state: directory
+
+  - name: Create /daten/vorlagen
+    file:
+      path: /daten/vorlagen
+      state: directory
+
+  - name: Create /daten/virtualbox
+    file:
+      path: /daten/virtualbox
+      state: directory
+
+  - name: Create /usr/local/lib/fax
+    file:
+      path: /usr/local/lib/fax
+      state: directory
+
+  - name: edit fstab
+    lineinfile:
+      path: /etc/fstab
+      line: '{{ item }}'
+    with_items:
+      - '192.168.16.235:/srv/home                         /home                   nfs     nfsvers=4,rw     0     0'
+      - '192.168.16.235:/srv/daten/backup                 /daten/backup           nfs     nfsvers=4,rw     0     0'
+      - '192.168.16.235:/srv/daten/shc                    /daten/shc              nfs     nfsvers=4,rw     0     0'
+      - '192.168.16.235:/srv/daten/office                 /daten/office           nfs     nfsvers=4,rw     0     0'
+      - '192.168.16.235:/srv/daten/lager                  /daten/lager            nfs     nfsvers=4,rw     0     0'
+      - '192.168.16.235:/srv/daten/gf                     /daten/gf               nfs     nfsvers=4,rw     0     0'
+      - '192.168.16.235:/srv/daten/vorlagen               /daten/vorlagen         nfs     nfsvers=4,rw     0     0'
+      - '192.168.16.235:/srv/daten/virtualbox             /daten/virtualbox       nfs     nfsvers=4,rw     0     0'
+      - '192.168.16.235:/srv/daten/faxclient              /usr/local/lib/fax      nfs     nfsvers=4,rw     0     0'
+
+  - name: create symbolic link truetype
+    file:
+      src: "/daten/virtualbox/clientinstallation/schriften/quatro"
+      dest: "/usr/share/fonts/truetype/quatro"
+      state: link
+      force: yes
+
+  - name: create symbolic link TTF
+    file:
+      src: "/usr/share/fonts/truetype"
+      dest: "/usr/share/fonts/TTF"
+      state: link
+      force: yes
+...

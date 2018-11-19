@@ -1,0 +1,49 @@
+---
+- hosts: client
+
+  tasks:
+  - name: set nameserver
+    lineinfile:
+      dest: /etc/resolv.conf
+      line: nameserver 192.168.16.235
+
+  - name: set nameserver
+    lineinfile:
+      dest: /etc/hosts
+      line: 192.168.16.235 qs0.quatrostahl.local
+
+  - name: copy auth-client-config_0.9ubuntu1_all.deb
+    copy:
+      src: files/auth-client-config_0.9ubuntu1_all.deb
+      dest: /tmp/auth-client-config_0.9ubuntu1_all.deb
+
+  - name: install auth-client-config_0.9ubuntu1_all.deb
+    shell: dpkg -i /tmp/auth-client-config_0.9ubuntu1_all.deb
+
+  - name: copy python-univention-domain-join
+    copy:
+      src: files/python-univention-domain-join_1.0-18ubuntu1_all.deb
+      dest: /tmp/python-univention-domain-join_1.0-18ubuntu1_all.deb
+
+  - name: install python-univention-domain-join
+    shell: dpkg -i /tmp/python-univention-domain-join_1.0-18ubuntu1_all.deb
+
+  - name: unarchive univention-domain-join
+    copy:
+      src: files/univention-domain-join_1.0-18ubuntu1.tar.gz
+      dest: /tmp/univention-domain-join_1.0-18ubuntu1.tar.gz
+
+  - name: install file
+    shell: tar xvzf /tmp/univention-domain-join_1.0-18ubuntu1.tar.gz
+
+  - name: unarchive univention-domain-join-cli
+    copy:
+      src: files/univention-domain-join-cli_1.0-18ubuntu1_all.deb
+      dest: /tmp/univention-domain-join-cli_1.0-18ubuntu1_all.deb
+
+  - name: install stuff
+    shell: dpkg -i /tmp/univention-domain-join-cli_1.0-18ubuntu1_all.deb
+
+  - name: configure univention
+    shell: univention-domain-join-cli --master-ip 192.168.16.235 --skip-login-manager --username administrator --password 'lPi)nJe$t&'
+...

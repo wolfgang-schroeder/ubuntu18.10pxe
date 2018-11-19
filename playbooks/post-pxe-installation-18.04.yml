@@ -1,0 +1,168 @@
+---
+- hosts: client
+  remote_user: root
+
+  tasks:
+  - name: install plasma environment
+    apt_repository:
+      repo: ppa:kubuntu-ppa/backports
+      state: present
+
+  - name: update
+    apt:
+      update_cache: yes
+
+  - name: install kde
+    apt:
+      name: kubuntu-desktop
+
+  - name: install text editor
+    apt:
+      name: '{{ item }}'
+    with_items:
+      - 'mc'
+      - 'emacs'
+      - 'vim'
+      - 'vim-nox'
+
+  - name: install office programms
+    apt:
+      name: '{{ item }}'
+    with_items:
+      - 'libreoffice'
+      - 'libreoffice-help-de'
+      - 'librecad'
+      - 'krita'
+      - 'krita-l10n'
+      - 'aspell-de'
+      - 'hunspell-de-de'
+      - 'mythes-de'
+      - 'hyphen-de'
+      - 'inkscape'
+      - 'gimp'
+
+  - name: install browser
+    apt:
+      name: '{{ item }}'
+    with_items:
+      - 'firefox'
+#      - 'firefox-local'
+      - 'firefox-locale-de'
+      - 'chromium-browser'
+      - 'chromium-codecs-ffmpeg'
+      - 'falkon'
+
+  - name: install python
+    apt:
+      name: '{{item}}'
+    with_items:
+      - 'python3-pip'
+      - 'python3-vobject'
+      - 'python3-psycopg2'
+      - 'python3-pyqt5.qtsvg'
+      - 'python3-pyqt5.qtsql'
+      - 'python3-numpy'
+      - 'python3-pyqt5'
+      - 'python3-cups'
+      - 'python3-numpy'
+      - 'python3-reportlab'
+      - 'python3-psycopg2'
+
+  - name: install pip3 pkg
+    pip:
+      name: '{{ item }}'
+      executable: pip3
+    with_items:
+      - 'pyexcel-ods'
+      - 'qrcode'
+      - 'pyexcel'
+      - 'pyexcel-xls'
+      - 'pyexcel-io'
+      - 'zplgrf'
+
+  - name: install systemutils
+    apt:
+      name: '{{ item }}'
+    with_items:
+      - 'ntp'
+      - 'screen'
+      - 'p7zip-rar'
+      - 'rar'
+      - 'unrar'
+      - 'kfind'
+      - 'kdepasswd'
+      - 'kompare'
+      - 'unixodbc'
+      - 'alien'
+      - 'numlockx'
+      - 'libtiff-tools'
+      - 'ttf-mscorefonts-installer'
+      - 'odbc-postgresql'
+      - 'libqt5sql5-odbc'
+      - 'libqt5sql5-psql'
+      - 'libghc-highlighting-kate-dev'
+
+
+  - name: install networkutils
+    apt:
+      name: '{{ item }}'
+    with_items:
+      - 'curl'
+      - 'net-tools'
+      - 'freerdp2-wayland'
+      - 'freerdp2-x11'
+      - 'libfreerdp-client2-2'
+      - 'hylafax-client'
+      - 'libnss-ldapd'
+      - 'nfs-common'
+
+  - name: plasma extensions
+    apt:
+      name: '{{ item }}'
+    with_items:
+      - 'kde-baseapps-bin'
+      - 'plasma-widget-folderview'
+      - 'qtcurve'
+      - 'sddm-theme-elarun'
+      - 'marble'
+      - 'language-pack-kde-de'
+      - 'plasma-workspace-wayland'
+      - 'plasma-workspace-wallpapers'
+      - 'kde-l10n-de'
+
+  - name: install security relevant programms
+    apt:
+      name: '{{ item }}'
+    with_items:
+      - 'libpam-sss'
+      - 'heimdal-clients'
+
+  - name: remove "to much" programms
+    apt:
+      name: '{{ item }}'
+      state: absent
+    with_items:
+      - 'plasma-discover'
+
+  - name: Update repositories cache
+    apt:
+      update_cache: yes
+
+  - name: update
+    apt:
+      upgrade: dist
+
+  - name: upgrade
+    apt:
+      name: "*"
+      state: latest
+      force_apt_get: True
+
+  - name: Remove useless packages from the cache
+    apt:
+      autoclean: yes
+
+  - name: Remove dependencies that are no longer required
+    apt:
+      autoremove: yes
+...

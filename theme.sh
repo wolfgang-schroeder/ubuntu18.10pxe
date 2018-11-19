@@ -1,0 +1,1 @@
+ansible-playbook ./playbooks/theme.yml -i hosts -b -K

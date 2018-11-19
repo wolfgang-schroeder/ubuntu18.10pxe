@@ -1,0 +1,18 @@
+---
+- hosts: client
+  remote_user: root
+
+  tasks:
+  - name: add repo graphics-drivers
+    apt_repository:
+      repo: ppa:graphics-drivers
+      state: present
+
+  - name: update system
+    apt:
+      update_cache: yes
+
+  - name: install nvidia driver
+    apt:
+      name: nvidia-410
+...

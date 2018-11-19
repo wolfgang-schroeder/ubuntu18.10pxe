@@ -1,0 +1,27 @@
+---
+- hosts: client
+  remote_user: root
+
+  tasks:
+  - name: add dns record
+    lineinfile:
+      path: /etc/hosts
+      line: '192.168.16.235 qs0.quatrostahl.local'
+
+  - name: add univention repository
+    apt_repository:
+      repo: ppa:univention-dev/ppa
+
+  - name: update cache
+    apt:
+      update_cache: yes
+
+  - name: install univention domain join
+    apt:
+      name: univention-domain-join
+
+  - name: configure univention
+    shell: univention-domain-join-cli --master-ip 192.168.16.235 --skip-login-manager --username administrator --password 'password'
+...
+# only ubuntu 18.04 at this point 12.11.2018
+# no support for ubuntu 18.10 yet we hope
